@@ -23,18 +23,40 @@ TimeLocked lets you store raw signed Bitcoin transactions that are time-locked �
 
 ## Deployment
 
-### Ready-to-Use Files
-
 The `dist/public/` folder contains the production-ready files:
 - `index.html` — the app entry point
 - `assets/` — bundled JavaScript and CSS
 - `.htaccess` — Apache configuration (compression, caching, security headers)
 
-Upload these files to any web server or subfolder to run the app.
+TimeLocked works as a **standalone app** — it does not require WordPress or any backend server. It runs entirely in the browser. You can host it on any web server (Apache, Nginx, Netlify, GitHub Pages, etc.) by simply uploading the files.
 
-### WordPress Integration
+### Option 1: Standalone App in a Subfolder
 
-To embed TimeLocked in a WordPress page, create a custom page template in your theme:
+The included build is configured to run in a subfolder (e.g., `https://yourdomain.com/bitcoin-timelocked/`).
+
+1. Create the subfolder on your server (e.g., `/bitcoin-timelocked/`)
+2. Upload the contents of `dist/public/` into that folder
+3. Visit `https://yourdomain.com/bitcoin-timelocked/` — the app is ready to use
+
+To change the subfolder name, rebuild with your folder name:
+
+```bash
+npx vite build --base=/your-folder-name/
+```
+
+### Option 2: Standalone App at Root
+
+If you want TimeLocked to run at the root of a domain (e.g., `https://timelocked.yourdomain.com/`), rebuild with:
+
+```bash
+npx vite build --base=/
+```
+
+Then upload the contents of `dist/public/` to the root of your web server or domain.
+
+### Option 3: Embedded in a WordPress Page
+
+TimeLocked can also be embedded inside an existing WordPress site. Upload the `dist/public/assets/` folder to a subfolder on your server (e.g., `/bitcoin-timelocked/assets/`), then create a custom page template in your WordPress theme:
 
 ```php
 <?php
@@ -57,7 +79,7 @@ get_header();
 <?php get_footer(); ?>
 ```
 
-Then upload the `dist/public/assets/` folder to `/bitcoin-timelocked/assets/` on your server.
+Update the asset paths in the template to match your subfolder name. Add `?v=2` (or increment the number) to the URLs whenever you upload new builds to bust browser caches.
 
 ## Development
 
