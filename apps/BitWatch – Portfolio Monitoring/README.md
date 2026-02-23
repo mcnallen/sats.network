@@ -53,7 +53,17 @@ BitWatch uses a cascading fallback system to ensure reliability — if one API i
 
 Upload all files to any web server — no Node.js, no build step required.
 
-For example, upload to a `/bitcoin-bitwatch/` subfolder on your hosting and access it directly at `yourdomain.com/bitcoin-bitwatch/`.
+### Running from root
+
+Place `index.html`, `styles.css`, `app.js`, and `.htaccess` in your web server's root directory. Access the app at `yourdomain.com/`.
+
+No changes to the code are needed — the file references in `index.html` are relative (`styles.css` and `app.js`), so they load from whatever directory `index.html` is in.
+
+### Running from a subfolder
+
+Place all files in a subfolder, for example `/bitcoin-bitwatch/`. Access the app at `yourdomain.com/bitcoin-bitwatch/`.
+
+This also works without any code changes — the relative file references automatically resolve to the correct subfolder path.
 
 ## Data Storage
 
