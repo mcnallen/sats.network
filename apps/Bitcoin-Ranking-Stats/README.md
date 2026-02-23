@@ -1,6 +1,6 @@
 # Bitcoin Ranking Stats
 
-A self-contained Bitcoin portfolio ranking calculator that shows users where they stand among global Bitcoin holders. Designed to embed directly into WordPress pages or run standalone on any web server.
+A self-contained Bitcoin portfolio ranking calculator that shows users where they stand among global Bitcoin holders. Runs on any web server with no build step required.
 
 **Live Sites:**
 - [sats.network/bitcoin-ranking/](https://sats.network/bitcoin-portfolio-ranking/)
@@ -21,14 +21,14 @@ A self-contained Bitcoin portfolio ranking calculator that shows users where the
 ## File Structure
 
 ```
-bitcoin-ranking-wp/
+bitcoin-ranking/
 ├── index.html                      # Entry point (loads the JS module)
 ├── assets/
 │   └── index-BXjzWueZ.js          # Self-contained app logic (ES module)
 ├── static/
 │   ├── style.css                   # Custom styling (stat cards, header, theme)
 │   └── bitcoin-icon.svg           # Header Bitcoin icon
-├── .htaccess                       # Apache config for SiteGround hosting
+├── .htaccess                       # Apache config (optional, for Apache/SiteGround hosting)
 └── README.md
 ```
 
@@ -53,14 +53,40 @@ The app fetches live Bitcoin prices with multiple fallbacks to ensure reliabilit
 
 No build step required. Upload the files directly to any web server.
 
-### WordPress (subfolder)
-Upload the contents to your WordPress site's `/bitcoin-ranking/` directory. The `index.html` can be loaded via an iframe or the JS module can be referenced directly from a WordPress page with a `<div id="root"></div>`.
+### Running from root (standalone site or subdomain)
 
-### Standalone (subdomain)
-For root deployment (e.g., `ranking.sats.network`), use the `ranking-sats-network` version which has root-relative paths (`/static/` and `/assets/` instead of `/bitcoin-ranking/static/`).
+If you're deploying to the root of a domain (e.g., `yourdomain.com` or `ranking.yourdomain.com`), you need to update the asset path in the JS file. Open `assets/index-BXjzWueZ.js` and find this line in the `renderApp()` function:
+
+```html
+<img src="/bitcoin-ranking/static/bitcoin-icon.svg"
+```
+
+Change `/bitcoin-ranking/static/` to `/static/`:
+
+```html
+<img src="/static/bitcoin-icon.svg"
+```
+
+That's the only change needed. Then upload all files to your web root:
+
+```
+your-web-root/
+├── index.html
+├── assets/
+│   └── index-BXjzWueZ.js
+├── static/
+│   ├── style.css
+│   └── bitcoin-icon.svg
+└── .htaccess (optional)
+```
+
+### Running from a subfolder (e.g., WordPress site)
+
+Upload the files to a subfolder like `/bitcoin-ranking/` on your site. The default paths already point to `/bitcoin-ranking/static/`, so no changes are needed. You can load it via iframe or reference the JS module directly from a WordPress page using `<div id="root"></div>`.
 
 ### Hosting
-Tested on SiteGround shared hosting with Apache. The included `.htaccess` handles caching and MIME types.
+
+Tested on SiteGround shared hosting with Apache. The included `.htaccess` handles caching and MIME types. Works on any standard web server (Apache, Nginx, etc.).
 
 ## How It Works
 
